@@ -1,14 +1,19 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+const externals = ['/:routes.js', '/:create.jsx'];   // ← list all pseudo-files once
+
 export default defineConfig({
-  root: 'client',                 // ← where index.html lives
+  root: 'client',             // where index.html lives
   plugins: [react()],
   build: {
-    outDir: '../dist/client',     // keep same final folder
+    outDir: '../dist/client', // final folder for client
     emptyOutDir: true,
     rollupOptions: {
-      external: ['/:routes.js'],  // the earlier build fix
+      external: externals,    // ⬅️ client-side
     },
+  },
+  ssr: {
+    external: externals,      // ⬅️ **server-side**
   },
 });
